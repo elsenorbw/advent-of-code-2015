@@ -209,28 +209,11 @@ def apply_one_line_to_grid(grid: Union[LightGrid, BrightGrid], instruction: str)
         raise ValueError(f"What the hell kind of command is {instruction} ?")
 
 
-def light_grid_from_file(filename: str) -> LightGrid:
+def grid_from_file(filename: str, grid_type):
     """
-    Return a LightGrid object configured per the instructions in the file
+    Return the specified type of Grid object configured per the instructions in the file
     """
-    the_grid = LightGrid()
-
-    with open(filename, "r") as f:
-        for this_line in f:
-            this_line = this_line.strip()
-            if "" != this_line:
-                # handle this line
-                apply_one_line_to_grid(the_grid, this_line)
-
-    return the_grid
-
-
-# there must be a smarter way to do this..
-def bright_grid_from_file(filename: str) -> BrightGrid:
-    """
-    Return a BrightGrid object configured per the instructions in the file
-    """
-    the_grid = BrightGrid()
+    the_grid = grid_type()
 
     with open(filename, "r") as f:
         for this_line in f:
@@ -245,9 +228,9 @@ def bright_grid_from_file(filename: str) -> BrightGrid:
 def main():
     print(f"2015 day_6")
     filename = "input.txt"
-    grid = light_grid_from_file(filename)
+    grid = grid_from_file(filename, LightGrid)
     print(f"part 1: {grid.lit_count()}")
-    grid2 = bright_grid_from_file(filename)
+    grid2 = grid_from_file(filename, BrightGrid)
     print(f"part 2: {grid2.light_output()}")
 
 
